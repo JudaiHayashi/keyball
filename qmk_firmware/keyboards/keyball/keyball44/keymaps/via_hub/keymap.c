@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include QMK_KEYBOARD_H
 
 #include "quantum.h"
+#include "os_detection.h"
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -57,6 +58,19 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     // Auto enable scroll mode when the highest layer is 3
     keyball_set_scroll_mode(get_highest_layer(state) == 3);
     return state;
+}
+
+static bool is_mac_host(void) {
+    os_variant_t os = detected_host_os();
+    return os == OS_MACOS || os == OS_IOS;
+}
+
+report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
+    if (is_mac_host()) {
+        mouse_report.h = -mouse_report.h;
+        mouse_report.v = -mouse_report.v;
+    }
+    return mouse_report;
 }
 
 #ifdef OLED_ENABLE
