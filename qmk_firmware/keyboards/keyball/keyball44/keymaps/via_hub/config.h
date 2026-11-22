@@ -27,3 +27,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define SPLIT_WATCHDOG_ENABLE
 #define USB_MAX_POWER_CONSUMPTION 100
+
+#define DYNAMIC_KEYMAP_LAYER_COUNT 5
